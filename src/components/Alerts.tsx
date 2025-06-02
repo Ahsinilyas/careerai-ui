@@ -186,7 +186,7 @@ const Alerts: React.FC = () => {
             }).length}
           </div>
           <div className="text-sm text-gray-600">Recent Updates</div>
-        </div>
+        </Card>
       </div>
     </div>
   );
