@@ -1,11 +1,52 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React, { useState } from 'react';
+import Sidebar from '../components/Sidebar';
+import Header from '../components/Header';
+import Dashboard from '../components/Dashboard';
+import Journal from '../components/Journal';
+import Projects from '../components/Projects';
+import Alerts from '../components/Alerts';
 
 const Index = () => {
+  const [currentPage, setCurrentPage] = useState('dashboard');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const pageComponents = {
+    dashboard: Dashboard,
+    journal: Journal,
+    projects: Projects,
+    alerts: Alerts,
+  };
+
+  const pageTitles = {
+    dashboard: 'Dashboard',
+    journal: 'Journal',
+    projects: 'Projects',
+    alerts: 'Job Alerts',
+  };
+
+  const CurrentPageComponent = pageComponents[currentPage as keyof typeof pageComponents];
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-gray-50 flex w-full">
+      {/* Sidebar */}
+      <Sidebar
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+      />
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col lg:ml-64">
+        <Header
+          title={pageTitles[currentPage as keyof typeof pageTitles]}
+          onMenuClick={() => setSidebarOpen(true)}
+        />
+        
+        <main className="flex-1 overflow-auto">
+          <CurrentPageComponent />
+        </main>
       </div>
     </div>
   );
