@@ -1,0 +1,14 @@
+{
+  "name": "careerai-server",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.2.1",
+    "cors": "latest",
+    "dotenv": "latest",
+    "express": "latest",
+    "openai": "^5.0.2"
+  }
+}

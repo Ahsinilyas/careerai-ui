@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useJournal } from '../hooks/useJournal';
 import { Plus, FileText, Sparkles, Calendar } from 'lucide-react';
@@ -6,11 +5,23 @@ import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Textarea } from './ui/textarea';
 import { Input } from './ui/input';
+import IkigaiAnalysis from './IkigaiAnalysis';
+import BuildInPublicGenerator from './BuildInPublicGenerator';
 
 const Journal: React.FC = () => {
-  const { entries, currentEntry, setCurrentEntry, addEntry, generateAISummary } = useJournal();
+  const { 
+    entries, 
+    currentEntry, 
+    setCurrentEntry, 
+    addEntry, 
+    generateAISummary,
+    ikigaiResult,
+    isAnalyzing,
+    generateIkigaiAnalysis
+  } = useJournal();
   const [isWriting, setIsWriting] = useState(false);
   const [entryTitle, setEntryTitle] = useState('');
+  const [isGeneratingPost, setIsGeneratingPost] = useState(false);
 
   const handleSaveEntry = () => {
     if (entryTitle.trim() && currentEntry.trim()) {
@@ -28,6 +39,31 @@ const Journal: React.FC = () => {
     });
   };
 
+  const handleGeneratePost = async () => {
+    try {
+      setIsGeneratingPost(true);
+      const response = await fetch('http://localhost:3001/api/generate-post', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ikigaiData: ikigaiResult })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate post');
+      }
+
+      const post = await response.json();
+      return post;
+    } catch (error) {
+      console.error('Error generating post:', error);
+      throw error;
+    } finally {
+      setIsGeneratingPost(false);
+    }
+  };
+
   return (
     <div className="p-6">
       {/* Header */}
@@ -43,6 +79,25 @@ const Journal: React.FC = () => {
           <Plus className="w-4 h-4 mr-2" />
           New Entry
         </Button>
+      </div>
+
+      {/* IKIGAI Analysis */}
+      <div className="mb-6">
+        <IkigaiAnalysis
+          journalEntries={entries}
+          onAnalyze={generateIkigaiAnalysis}
+          isAnalyzing={isAnalyzing}
+          result={ikigaiResult}
+        />
+      </div>
+
+      {/* Build in Public Generator */}
+      <div className="mb-6">
+        <BuildInPublicGenerator
+          ikigaiData={ikigaiResult}
+          onGenerate={handleGeneratePost}
+          isGenerating={isGeneratingPost}
+        />
       </div>
 
       {/* Writing Interface */}
@@ -98,15 +153,21 @@ const Journal: React.FC = () => {
                 </div>
               </div>
               {!entry.aiSummary && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => generateAISummary(entry.id)}
-                  className="text-purple-600 border-purple-200 hover:bg-purple-50"
-                >
-                  <Sparkles className="w-4 h-4 mr-2" />
-                  Get AI Summary
-                </Button>
+                <div className="flex flex-col gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => generateAISummary(entry.id)}
+                    disabled={entry.isGeneratingSummary}
+                    className="text-purple-600 border-purple-200 hover:bg-purple-50"
+                  >
+                    <Sparkles className="w-4 h-4 mr-2" />
+                    {entry.isGeneratingSummary ? 'Generating...' : 'Get AI Summary'}
+                  </Button>
+                  {entry.error && (
+                    <p className="text-sm text-red-500">{entry.error}</p>
+                  )}
+                </div>
               )}
             </div>
             

@@ -1,28 +1,52 @@
-
 import React from 'react';
+import { Button } from './ui/button';
 import { PhaseData } from '../hooks/useDashboard';
-import ProgressRing from './ProgressRing';
 
 interface PhaseCardProps {
   phase: PhaseData;
+  onProgressUpdate: (phaseId: string, increment: number) => Promise<void>;
 }
 
-const PhaseCard: React.FC<PhaseCardProps> = ({ phase }) => {
+const PhaseCard: React.FC<PhaseCardProps> = ({ phase, onProgressUpdate }) => {
   return (
-    <div className={`relative overflow-hidden rounded-xl bg-gradient-to-br ${phase.color} p-6 text-white shadow-lg transition-transform duration-300 hover:scale-105`}>
-      <div className="flex items-center justify-between">
-        <div className="flex-1">
-          <h3 className="text-xl font-bold mb-2">{phase.title}</h3>
-          <p className="text-sm opacity-90 mb-4">{phase.description}</p>
-          <div className="text-xs opacity-75">
-            Progress: {phase.progress}% complete
+    <div className="bg-white rounded-lg shadow-sm border p-6">
+      <div className="flex justify-between items-start mb-4">
+        <div>
+          <h4 className="text-lg font-semibold text-gray-900">{phase.title}</h4>
+          <p className="text-sm text-gray-600">{phase.description}</p>
+        </div>
+        <div className={`p-2 rounded-lg bg-gradient-to-r ${phase.color} bg-opacity-10`}>
+          <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center">
+            <span className="font-semibold text-white">{Math.round(phase.progress)}%</span>
           </div>
         </div>
-        <div className="ml-4">
-          <ProgressRing progress={phase.progress} size={100} strokeWidth={6} />
-        </div>
       </div>
-      <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-16 -mt-16"></div>
+      
+      <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+        <div 
+          className={`h-2 rounded-full bg-gradient-to-r ${phase.color}`}
+          style={{ width: `${phase.progress}%` }}
+        />
+      </div>
+
+      <div className="flex gap-2">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => onProgressUpdate(phase.id, -10)}
+          disabled={phase.progress <= 0}
+        >
+          -10%
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => onProgressUpdate(phase.id, 10)}
+          disabled={phase.progress >= 100}
+        >
+          +10%
+        </Button>
+      </div>
     </div>
   );
 };

@@ -1,73 +1,82 @@
-# Welcome to your Lovable project
+# CareerAI - Your AI-Powered Career Development Platform
 
-## Project info
+CareerAI helps you navigate your career journey with AI-powered insights, IKIGAI analysis, and professional content generation.
 
-**URL**: https://lovable.dev/projects/088ca2e2-4eda-4c92-b33d-4fc07ff2dac6
+## Features
 
-## How can I edit this code?
+- **Smart Journaling**: Document your career journey with AI-powered summaries
+- **IKIGAI Analysis**: Discover your career alignment through AI analysis of your journal entries
+- **Build in Public**: Generate LinkedIn posts based on your IKIGAI insights
+- **Progress Tracking**: Monitor your career development across key phases
+- **Career Dashboard**: Visualize your growth with stats and recent activities
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+- Frontend: React + TypeScript + Vite
+- UI: Tailwind CSS + shadcn/ui
+- Backend: Node.js + Express
+- AI: OpenAI API
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/088ca2e2-4eda-4c92-b33d-4fc07ff2dac6) and start prompting.
+## Getting Started
 
-Changes made via Lovable will be committed automatically to this repo.
+1. Clone the repository:
+```bash
+git clone [your-repo-url]
+cd careerai-ui
+```
 
-**Use your preferred IDE**
+2. Install dependencies:
+```bash
+# Install frontend dependencies
+npm install
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+# Install backend dependencies
+cd server
+npm install
+```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+3. Set up environment variables:
+Create a `.env` file in the server directory:
+```env
+OPENAI_API_KEY=your_openai_api_key
+PORT=3001
+```
 
-Follow these steps:
+4. Start the development servers:
+```bash
+# Start backend server
+cd server
+npm start
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# In a new terminal, start frontend
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+5. Open http://localhost:8080 in your browser
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Project Structure
 
-**Use GitHub Codespaces**
+```
+careerai-ui/
+├── src/
+│   ├── components/     # React components
+│   ├── hooks/         # Custom hooks
+│   ├── pages/         # Page components
+│   └── styles/        # CSS styles
+├── server/
+│   ├── index.js       # Express server
+│   └── package.json   # Backend dependencies
+└── package.json       # Frontend dependencies
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Contributing
 
-## What technologies are used for this project?
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-This project is built with:
+## License
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/088ca2e2-4eda-4c92-b33d-4fc07ff2dac6) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+This project is licensed under the MIT License - see the LICENSE file for details.
